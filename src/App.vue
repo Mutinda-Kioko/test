@@ -1,29 +1,24 @@
 <script setup>
-import Web3 from 'web3';
-async function fetchCoins(){
-const web3 = new Web3("https://rinkeby.infura.io/v3/bdd9a9d596d0418e8df81be7136dfc4d");
-const aggregatorV3InterfaceABI = [{ "inputs": [], "name": "decimals", "outputs": [{ "internalType": "uint8", "name": "", "type": "uint8" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "description", "outputs": [{ "internalType": "string", "name": "", "type": "string" }], "stateMutability": "view", "type": "function" }, { "inputs": [{ "internalType": "uint80", "name": "_roundId", "type": "uint80" }], "name": "getRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "latestRoundData", "outputs": [{ "internalType": "uint80", "name": "roundId", "type": "uint80" }, { "internalType": "int256", "name": "answer", "type": "int256" }, { "internalType": "uint256", "name": "startedAt", "type": "uint256" }, { "internalType": "uint256", "name": "updatedAt", "type": "uint256" }, { "internalType": "uint80", "name": "answeredInRound", "type": "uint80" }], "stateMutability": "view", "type": "function" }, { "inputs": [], "name": "version", "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }], "stateMutability": "view", "type": "function" }]
-const addresses = [
+  import { getPrice } from './fetchCoins';
+  const addresses = [
     { symbol:"BTC",
-        addr:"0xECe365B379E1dD183B20fc5f022230C044d51404"},
+      addr:"0xECe365B379E1dD183B20fc5f022230C044d51404"},
     { symbol:"ETH",
-        addr:"0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"},
+      addr:"0x8A753747A1Fa494EC906cE90E9f37563A8AF630e"},
     { symbol:"USDC",
-        addr:"0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB"},
+      addr:"0xa24de01df22b63d23Ebc1882a5E3d4ec0d907bFB"},
     { symbol:"BNB",
-        addr:"0xcf0f51ca2cDAecb464eeE4227f5295F2384F84ED"},
+      addr:"0xcf0f51ca2cDAecb464eeE4227f5295F2384F84ED"},
     { symbol:"DAI",
-        addr:"0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF"}]
-  for(let i=0;i<addresses.length; i++ ){
-    const priceFeed = new web3.eth.Contract(aggregatorV3InterfaceABI, addresses[i].addr)
-    await priceFeed.methods.latestRoundData().call()
-        .then((roundData) => {
-            // Do something with roundData
-            console.log("Latest Round Data",addresses[i].symbol, Number(roundData.answer)/10**8)
-        })
+      addr:"0x2bA49Aaa16E6afD2a993473cfB70Fa8559B523cF"}]
+  async function fetchCoins(){
+    for(let i=0;i<addresses.length; i++){
+      const value = await getPrice(addresses[i].addr);
+      console.log(addresses[i].symbol, value);
+    }
+
   }
-}
-fetchCoins();
+  fetchCoins();
 </script>
 
 <template>

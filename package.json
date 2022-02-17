@@ -7,6 +7,8 @@
     "preview": "vite preview --port 5050"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
+    "ethers": "^5.5.4",
     "gitart-vue-dialog": "^1.2.4",
     "vue": "^3.2.29",
     "web3": "^1.7.0"

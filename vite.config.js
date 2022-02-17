@@ -9,13 +9,14 @@ export default defineConfig({
   plugins: [vue(), vueJsx()],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+       'Buffer': require.resolve("buffer/").Buffer
     }
   },
   define: {
     'process.env': {},
     'global': {},
-    'Buffer':Buffer||[]
+    'Buffer':Buffer.Buffer||[]
   }
   
 })
